@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCG - Calculadora de Corte</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Habilita o modo escuro baseado em classes
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         /* Remove setinhas dos inputs number */
         input[type=number]::-webkit-inner-spin-button,
@@ -18,7 +24,7 @@
         input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased min-h-screen flex flex-col transition-colors duration-200">
 
     <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -33,22 +39,28 @@
                     <p class="text-[11px] text-slate-400 font-medium tracking-wider uppercase">Swiss Math Auto-System</p>
                 </div>
             </div>
+
+            <!-- Botão de Modo Escuro -->
+            <button id="theme-toggle" type="button" class="text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-lg text-sm p-2.5 transition-colors">
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </button>
         </div>
     </header>
 
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex flex-col lg:flex-row gap-6">
 
-        <!-- Configuração de tabela a esquerda e entradada de dados -->
+        <!-- Configuração de tabela a esquerda e entrada de dados -->
         <div class="w-full lg:w-[40%] flex flex-col gap-5">
 
             <!-- Configuração do Torneio e IDs -->
-            <section class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">Configurações do Torneio</h2>
+            <section class="bg-white dark:bg-slate-800 p-5 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors duration-200">
+                <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 border-b border-slate-100 dark:border-slate-700 pb-2">Configurações do Torneio</h2>
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Corte</label>
-                        <select id="cutConfig" onchange="calculate()" class="w-full rounded-lg border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 border bg-slate-50 outline-none transition-colors">
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Corte</label>
+                        <select id="cutConfig" onchange="calculate()" class="w-full rounded-lg border-slate-300 dark:border-slate-600 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 border bg-slate-50 dark:bg-slate-900 dark:text-white outline-none transition-colors">
                             <option value="4">Top 4</option>
                             <option value="8" selected>Top 8</option>
                             <option value="8-assym">Top 8 Assimétrico</option>
@@ -56,23 +68,23 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
-                        <!-- Rodadas Restantes com botões de +(adicionar) e -(retirar) jogadores -->
+                        <!-- Rodadas Restantes -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Rodadas Restantes</label>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Rodadas Restantes</label>
                             <div class="flex rounded-lg shadow-sm">
-                                <button type="button" onclick="document.getElementById('roundsLeft').stepDown(); calculate()" class="px-3 bg-slate-200 text-slate-600 rounded-l-lg border border-slate-300 border-r-0 hover:bg-slate-300 font-bold transition-colors focus:outline-none">−</button>
-                                <input type="number" id="roundsLeft" value="1" min="1" oninput="calculate()" class="w-full border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 bg-slate-50 outline-none transition-colors font-medium text-center border-y !rounded-none">
-                                <button type="button" onclick="document.getElementById('roundsLeft').stepUp(); calculate()" class="px-3 bg-slate-200 text-slate-600 rounded-r-lg border border-slate-300 border-l-0 hover:bg-slate-300 font-bold transition-colors focus:outline-none">+</button>
+                                <button type="button" onclick="document.getElementById('roundsLeft').stepDown(); calculate()" class="px-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-l-lg border border-slate-300 dark:border-slate-600 border-r-0 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">−</button>
+                                <input type="number" id="roundsLeft" value="1" min="1" oninput="calculate()" class="w-full border-slate-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 bg-slate-50 dark:bg-slate-900 dark:text-white outline-none transition-colors font-medium text-center border-y !rounded-none">
+                                <button type="button" onclick="document.getElementById('roundsLeft').stepUp(); calculate()" class="px-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-r-lg border border-slate-300 dark:border-slate-600 border-l-0 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">+</button>
                             </div>
                         </div>
 
-                        <!-- Mesas de ID com botões de +(adicionar) e -(retirar) jogadores -->
+                        <!-- Mesas de ID -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1" title="Empates Intencionais">Mesas de ID (Op)</label>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1" title="Empates Intencionais">Mesas de ID (Op)</label>
                             <div class="flex rounded-lg shadow-sm">
-                                <button type="button" onclick="document.getElementById('idTables').stepDown(); calculate()" class="px-3 bg-slate-200 text-slate-600 rounded-l-lg border border-slate-300 border-r-0 hover:bg-slate-300 font-bold transition-colors focus:outline-none">−</button>
-                                <input type="number" id="idTables" value="0" min="0" oninput="calculate()" class="w-full border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 bg-slate-50 outline-none transition-colors font-medium text-center text-amber-700 border-y !rounded-none">
-                                <button type="button" onclick="document.getElementById('idTables').stepUp(); calculate()" class="px-3 bg-slate-200 text-slate-600 rounded-r-lg border border-slate-300 border-l-0 hover:bg-slate-300 font-bold transition-colors focus:outline-none">+</button>
+                                <button type="button" onclick="document.getElementById('idTables').stepDown(); calculate()" class="px-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-l-lg border border-slate-300 dark:border-slate-600 border-r-0 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">−</button>
+                                <input type="number" id="idTables" value="0" min="0" oninput="calculate()" class="w-full border-slate-300 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500 text-sm p-2 bg-slate-50 dark:bg-slate-900 outline-none transition-colors font-medium text-center text-amber-700 dark:text-amber-400 border-y !rounded-none">
+                                <button type="button" onclick="document.getElementById('idTables').stepUp(); calculate()" class="px-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-r-lg border border-slate-300 dark:border-slate-600 border-l-0 hover:bg-slate-300 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">+</button>
                             </div>
                         </div>
                     </div>
@@ -80,16 +92,16 @@
             </section>
 
             <!-- Brackets de pontuação -->
-            <section class="bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col flex-grow">
-                <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/80 rounded-t-xl">
-                    <h2 class="text-xs font-bold text-slate-600 uppercase tracking-wider">Brackets de Pontuação</h2>
+            <section class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col flex-grow transition-colors duration-200">
+                <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/80 dark:bg-slate-800/80 rounded-t-xl">
+                    <h2 class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Brackets de Pontuação</h2>
                 </div>
 
                 <!-- Headers das colunas de Input -->
-                <div class="grid grid-cols-12 gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider px-5 pt-4 pb-2 border-b border-slate-50">
-                    <div class="col-span-5 text-center">Jogadores</div>
-                    <div class="col-span-5 text-center">Pontos</div>
-                    <div class="col-span-2 text-center">Ação</div>
+                <div class="grid grid-cols-12 gap-2 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider px-5 pt-4 pb-2 border-b border-slate-50 dark:border-slate-700">
+                    <div class="col-span-5 text-center">Quantidade de Jogadores</div>
+                    <div class="col-span-5 text-center">Pontos obtidos</div>
+                    <div class="col-span-2 text-center">Remover</div>
                 </div>
 
                 <!-- Container Dinâmico -->
@@ -98,8 +110,8 @@
                 </div>
 
                 <!-- Botão para adicionar -->
-                <div class="p-4 pt-2 border-t border-slate-100">
-                    <button onclick="addBracketRow()" class="w-full text-sm font-semibold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2">
+                <div class="p-4 pt-2 border-t border-slate-100 dark:border-slate-700">
+                    <button onclick="addBracketRow()" class="w-full text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 border border-transparent dark:border-emerald-800/50">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                         Adicionar Bracket
                     </button>
@@ -109,28 +121,28 @@
 
         <!-- Tabela a direita e os resultados -->
         <div class="w-full lg:w-[60%] flex flex-col gap-5">
-            <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-                <div class="p-5 border-b border-slate-100 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Análise Matemática</h2>
+            <section class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col transition-colors duration-200">
+                <div class="p-5 border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Análise Matemática</h2>
 
-                    <div class="flex gap-4 text-lg font-semibold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-md border border-slate-100">
-                        <div>Corte Atual: <span id="lblCurrentCut" class="text-slate-800">0</span></div>
-                        <div class="border-l border-slate-300 pl-4">Corte Projetado: <span id="lblExpectedCut" class="text-emerald-600">0</span></div>
+                    <div class="flex gap-4 text-lg font-semibold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-md border border-slate-100 dark:border-slate-700">
+                        <div>Corte Atual: <span id="lblCurrentCut" class="text-slate-800 dark:text-white">0</span></div>
+                        <div class="border-l border-slate-300 dark:border-slate-600 pl-4">Corte Projetado: <span id="lblExpectedCut" class="text-emerald-600 dark:text-emerald-400">0</span></div>
                     </div>
                 </div>
 
                 <div class="custom-scrollbar overflow-x-auto p-0">
                     <table class="w-full text-left border-collapse min-w-[650px]">
                         <thead>
-                            <tr class="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                            <tr class="bg-slate-50 dark:bg-slate-900 text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
                                 <th class="p-4 font-semibold text-center">Pontuação Atual</th>
-                                <th class="p-4 font-semibold text-center">Qtd Jogadores</th>
+                                <th class="p-4 font-semibold text-center">Quantidade de Jogadores</th>
                                 <th class="p-4 font-semibold text-center">Pontos Máx.</th>
                                 <th class="p-4 font-semibold text-center">Status</th>
                                 <th class="p-4 font-semibold text-center">Chance de Bolha</th>
                             </tr>
                         </thead>
-                        <tbody id="resultsTableBody" class="divide-y divide-slate-100">
+                        <tbody id="resultsTableBody" class="divide-y divide-slate-100 dark:divide-slate-700">
                             <!-- Para para injeção do código em JS -->
                         </tbody>
                     </table>
@@ -138,19 +150,19 @@
             </section>
 
             <!-- Tabela de Top 16 -->
-            <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-                <div class="p-4 border-b border-slate-100 bg-white">
-                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Top 16 (Standings Atuais)</h2>
+            <section class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col transition-colors duration-200">
+                <div class="p-4 border-b border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Top 16 (Standings Atuais)</h2>
                 </div>
                 <div class="custom-scrollbar overflow-x-auto p-0 max-h-[300px]">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 border-b border-slate-200">
+                            <tr class="bg-slate-50 dark:bg-slate-900 text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
                                 <th class="p-3 font-semibold text-center w-24">Posição</th>
                                 <th class="p-3 font-semibold text-center">Pontuação</th>
                             </tr>
                         </thead>
-                        <tbody id="top16TableBody" class="divide-y divide-slate-100">
+                        <tbody id="top16TableBody" class="divide-y divide-slate-100 dark:divide-slate-700">
                             <!-- Para para injeção do código em JS -->
                         </tbody>
                     </table>
@@ -160,36 +172,71 @@
     </main>
 
     <script>
-        // Array para manter os dados de entrada
+        // Lógica do modo escuro
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        // Altera o icone com base na preferencia do sistema ou local storage
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        // Evento de clique para o botão
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // Se ja foi salvo no local storage
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                // Se não foi salvo ainda
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+
+
+        // Lógica da Calculadora
         let brackets = [];
         let nextId = 0;
 
-        // Inicializa com dados padrão
         document.addEventListener('DOMContentLoaded', () => {
-            addBracketRow(1, 15);
+            addBracketRow(4, 15);
             addBracketRow(3, 13);
             addBracketRow(4, 12);
-            addBracketRow(3, 11);
-            addBracketRow(3, 10);
-            addBracketRow(5, 9);
+            addBracketRow(6, 11);
             calculate();
         });
 
-        // Adiciona uma nova linha de bracket
         function addBracketRow(count = 1, pts = 0) {
             brackets.push({ id: nextId++, count: count, points: pts });
             renderBrackets();
             calculate();
         }
 
-        // Remove uma linha pelo ID
         function removeBracketRow(id) {
             brackets = brackets.filter(b => b.id !== id);
             renderBrackets();
             calculate();
         }
 
-        // Atualiza valor de um bracket específico
         function updateBracket(id, field, value) {
             const bracket = brackets.find(b => b.id === id);
             if (bracket) {
@@ -198,24 +245,31 @@
             }
         }
 
-        // Renderiza os inputs de bracket na tela
         function renderBrackets() {
             const container = document.getElementById('bracketsContainer');
             container.innerHTML = '';
 
             brackets.forEach(bracket => {
                 const div = document.createElement('div');
-                div.className = 'grid grid-cols-12 gap-2 items-center bg-white p-2 rounded-lg border border-slate-200 shadow-sm transition-all focus-within:ring-1 focus-within:ring-emerald-500 focus-within:border-emerald-500';
+                div.className = 'grid grid-cols-12 gap-2 items-center bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm transition-all focus-within:ring-1 focus-within:ring-emerald-500 focus-within:border-emerald-500';
 
                 div.innerHTML = `
                     <div class="col-span-5">
-                        <input type="number" oninput="updateBracket(${bracket.id}, 'count', this.value)" value="${bracket.count}" class="w-full rounded text-sm text-center p-1.5 focus:outline-none font-semibold text-slate-700 bg-transparent" min="1">
+                        <div class="flex rounded shadow-sm">
+                            <button type="button" onclick="const inp = this.nextElementSibling; inp.stepDown(); updateBracket(${bracket.id}, 'count', inp.value);" class="px-2.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-l border border-slate-200 dark:border-slate-600 border-r-0 hover:bg-slate-200 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">−</button>
+                            <input type="number" oninput="updateBracket(${bracket.id}, 'count', this.value)" value="${bracket.count}" class="w-full text-sm text-center p-1.5 focus:outline-none font-semibold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-600 !rounded-none" min="1">
+                            <button type="button" onclick="const inp = this.previousElementSibling; inp.stepUp(); updateBracket(${bracket.id}, 'count', inp.value);" class="px-2.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-r border border-slate-200 dark:border-slate-600 border-l-0 hover:bg-slate-200 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">+</button>
+                        </div>
                     </div>
-                    <div class="col-span-5 border-l border-slate-200">
-                        <input type="number" oninput="updateBracket(${bracket.id}, 'points', this.value)" value="${bracket.points}" class="w-full rounded text-sm text-center p-1.5 focus:outline-none font-semibold text-emerald-700 bg-transparent" min="0">
+                    <div class="col-span-5 border-l border-slate-200 dark:border-slate-700 pl-2">
+                        <div class="flex rounded shadow-sm">
+                            <button type="button" onclick="const inp = this.nextElementSibling; inp.stepDown(); updateBracket(${bracket.id}, 'points', inp.value);" class="px-2.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-l border border-slate-200 dark:border-slate-600 border-r-0 hover:bg-slate-200 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">−</button>
+                            <input type="number" oninput="updateBracket(${bracket.id}, 'points', this.value)" value="${bracket.points}" class="w-full text-sm text-center p-1.5 focus:outline-none font-semibold text-emerald-700 dark:text-emerald-400 bg-slate-50 dark:bg-slate-900 border-y border-slate-200 dark:border-slate-600 !rounded-none" min="0">
+                            <button type="button" onclick="const inp = this.previousElementSibling; inp.stepUp(); updateBracket(${bracket.id}, 'points', inp.value);" class="px-2.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-r border border-slate-200 dark:border-slate-600 border-l-0 hover:bg-slate-200 dark:hover:bg-slate-600 font-bold transition-colors focus:outline-none">+</button>
+                        </div>
                     </div>
-                    <div class="col-span-2 flex justify-center border-l border-slate-200">
-                        <button type="button" onclick="removeBracketRow(${bracket.id})" class="text-slate-400 hover:text-red-500 p-1.5 rounded-md hover:bg-red-50 transition-colors" title="Remover">
+                    <div class="col-span-2 flex justify-center border-l border-slate-200 dark:border-slate-700">
+                        <button type="button" onclick="removeBracketRow(${bracket.id})" class="text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="Remover">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         </button>
                     </div>
@@ -224,7 +278,6 @@
             });
         }
 
-        // Executa o cálculo
         function calculate() {
             const cutConfig = document.getElementById('cutConfig').value;
             const roundsLeft = parseInt(document.getElementById('roundsLeft').value, 10) || 0;
@@ -235,7 +288,6 @@
 
             let allPlayers = [];
 
-            // 1. Expande os brackets
             brackets.forEach(b => {
                 if(b.count > 0) {
                     for(let i = 0; i < b.count; i++) {
@@ -244,64 +296,53 @@
                 }
             });
 
-            // Caso não tenha dados suficientes
             const tbody = document.getElementById('resultsTableBody');
             const top16Tbody = document.getElementById('top16TableBody');
 
             if (allPlayers.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 text-sm">Adicione os brackets de pontuação para calcular.</td></tr>`;
-                top16Tbody.innerHTML = `<tr><td colspan="2" class="p-8 text-center text-slate-400 text-sm">Sem dados de jogadores.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 dark:text-slate-500 text-sm">Adicione os brackets de pontuação para calcular.</td></tr>`;
+                top16Tbody.innerHTML = `<tr><td colspan="2" class="p-8 text-center text-slate-400 dark:text-slate-500 text-sm">Sem dados de jogadores.</td></tr>`;
                 document.getElementById('lblCurrentCut').innerText = '0';
                 document.getElementById('lblExpectedCut').innerText = '0';
                 return;
             }
 
-            // 2. Ordena os resultados por pontos (De forma descendente)
             allPlayers.sort((a, b) => b - a);
 
-            // Constroi a tabela do Top 16
             top16Tbody.innerHTML = '';
             const limit16 = Math.min(16, allPlayers.length);
             for (let i = 0; i < limit16; i++) {
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.className = "hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors";
                 tr.innerHTML = `
                     <td class="p-2 text-center">
-                        <span class="text-sm font-bold text-slate-500">${i + 1}º</span>
+                        <span class="text-sm font-bold text-slate-500 dark:text-slate-400">${i + 1}º</span>
                     </td>
                     <td class="p-2 text-center">
-                        <span class="text-sm font-bold text-slate-800">${allPlayers[i]}</span>
+                        <span class="text-sm font-bold text-slate-800 dark:text-slate-200">${allPlayers[i]}</span>
                     </td>
                 `;
                 top16Tbody.appendChild(tr);
             }
 
-            // 3. Adiciona pontos de ID no topo (1 mesa = 2 jogadores que ganham +1 ponto)
             if (idTables > 0) {
                 const affectedPlayers = Math.min(idTables * 2, allPlayers.length);
                 for (let i = 0; i < affectedPlayers; i++) {
                     allPlayers[i] += 1;
                 }
-                // Reordenar após IDs
                 allPlayers.sort((a, b) => b - a);
             }
 
-            // 4. Determina currentCutScore
             const cutIndex = cutSize - 1;
             const currentCutScore = allPlayers.length > cutIndex ? allPlayers[cutIndex] : 0;
-
-            // 5. Determina expectedCutScore (Regra do Math.floor(Rounds * 1.5))
             const expectedCutScore = currentCutScore + Math.floor(roundsLeft * 1.5);
 
-            // Atualiza UI
             document.getElementById('lblCurrentCut').innerText = currentCutScore;
             document.getElementById('lblExpectedCut').innerText = expectedCutScore;
 
-            // Ordena os brackets para a renderização final (do maior pro menor)
             const sortedBrackets = [...brackets].sort((a, b) => b.points - a.points);
             tbody.innerHTML = '';
 
-            // 6. Avalia cada bracket individualmente
             sortedBrackets.forEach(bracket => {
                 if (bracket.count <= 0) return;
 
@@ -314,58 +355,51 @@
                 let statusBadgeClass = "";
                 let bolhaBadgeClass = "";
 
-                // Implementa lógica de corte do modo suíco.
                 if (maxPotential < currentCutScore) {
                     status = "Sem chance";
-                    statusBadgeClass = "bg-red-100 text-red-700 border-red-200";
+                    statusBadgeClass = "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50";
                     bolha = "Não";
                 }
                 else if (score >= expectedCutScore) {
                     status = "Já classificado";
-                    statusBadgeClass = "bg-emerald-100 text-emerald-700 border-emerald-200";
+                    statusBadgeClass = "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50";
                     bolha = "Não";
                 }
                 else if (drawPotential >= expectedCutScore) {
                     status = "Com chance ao empatar";
-                    statusBadgeClass = "bg-blue-100 text-blue-700 border-blue-200";
+                    statusBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50";
                     bolha = (drawPotential === expectedCutScore) ? "Sim" : "Não";
                 }
                 else {
-                    // Necessita Vencer
                     status = "Necessita vencer";
-                    statusBadgeClass = "bg-orange-100 text-orange-700 border-orange-200";
+                    statusBadgeClass = "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800/50";
 
-                    // Condição de "Bolha" para quem precisa vencer
                     if ( (maxPotential >= expectedCutScore - 1 && maxPotential <= expectedCutScore + 1) ||
                          (isAsymmetric && maxPotential === currentCutScore) ) {
                         bolha = "Sim";
                     } else {
-                        // Se maxPotential > expectedCutScore + 1, passa direto, então não é
-                        // coinsiderado em estado de "Bolha".
                         bolha = "Não";
                     }
                 }
 
-                // Tip de texto para a coluna de "Bolha"
                 if (bolha === "Sim") {
-                    bolhaBadgeClass = "bg-yellow-100 text-yellow-800 border-yellow-300 font-bold";
+                    bolhaBadgeClass = "bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-700/50 font-bold";
                 } else {
-                    bolhaBadgeClass = "bg-slate-100 text-slate-500 border-slate-200 font-medium";
+                    bolhaBadgeClass = "bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 font-medium";
                 }
 
-                // Cria a linha da tabela
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.className = "hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors";
 
                 tr.innerHTML = `
                     <td class="p-3 text-center">
-                        <span class="text-sm font-bold text-slate-800">${score}</span>
+                        <span class="text-sm font-bold text-slate-800 dark:text-slate-200">${score}</span>
                     </td>
                     <td class="p-3 text-center">
-                        <span class="text-sm font-medium text-slate-600">${bracket.count}</span>
+                        <span class="text-sm font-medium text-slate-600 dark:text-slate-400">${bracket.count}</span>
                     </td>
                     <td class="p-3 text-center">
-                        <span class="text-sm font-semibold text-slate-600">${maxPotential}</span>
+                        <span class="text-sm font-semibold text-slate-600 dark:text-slate-300">${maxPotential}</span>
                     </td>
                     <td class="p-3 text-center">
                         <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-bold uppercase tracking-wide shadow-sm ${statusBadgeClass}">
