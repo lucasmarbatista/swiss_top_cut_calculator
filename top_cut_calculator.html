@@ -99,8 +99,8 @@
 
                 <!-- Headers das colunas de Input -->
                 <div class="grid grid-cols-12 gap-2 text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider px-5 pt-4 pb-2 border-b border-slate-50 dark:border-slate-700">
-                    <div class="col-span-5 text-center">Quantidade de Jogadores</div>
-                    <div class="col-span-5 text-center">Pontos obtidos</div>
+                    <div class="col-span-5 text-center">Quantidade de<br>jogadores</div>
+                    <div class="col-span-5 text-center">Pontos<br>obtidos</div>
                     <div class="col-span-2 text-center">Remover</div>
                 </div>
 
@@ -126,8 +126,45 @@
                     <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Análise Matemática</h2>
 
                     <div class="flex gap-4 text-lg font-semibold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 rounded-md border border-slate-100 dark:border-slate-700">
-                        <div>Corte Atual: <span id="lblCurrentCut" class="text-slate-800 dark:text-white">0</span></div>
-                        <div class="border-l border-slate-300 dark:border-slate-600 pl-4">Corte Projetado: <span id="lblExpectedCut" class="text-emerald-600 dark:text-emerald-400">0</span></div>
+
+                        <!-- Bloco do Corte Atual -->
+                        <div class="flex items-center relative">
+                            Corte Atual: <span id="lblCurrentCut" class="text-slate-800 dark:text-white ml-1">0</span>
+
+                            <!-- Tooltip -->
+                            <div class="group flex items-center ml-1.5 cursor-help">
+                                <!-- Ícone de Interrogação -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <!-- Balão de Texto -->
+                                <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 p-2.5 bg-slate-800 dark:bg-slate-700 text-white text-[11px] leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 font-medium text-center pointer-events-none">
+                                    A pontuação do jogador que ocupa a última vaga de classificação neste exato momento (ex: o 8º colocado). Atingir apenas essa pontuação no final do torneio é o cenário de menor probabilidade matemática, a vaga é dependente de outros resultados e empates.
+                                    <!-- Setinha inferior do balão -->
+                                    <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800 dark:border-t-slate-700"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloco do Corte Projetado -->
+                        <div class="border-l border-slate-300 dark:border-slate-600 pl-4 flex items-center relative">
+                            Corte Projetado: <span id="lblExpectedCut" class="text-emerald-600 dark:text-emerald-400 ml-1">0</span>
+
+                            <!-- Tooltip -->
+                            <div class="group flex items-center ml-1.5 cursor-help">
+                                <!-- Ícone de Interrogação -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <!-- Balão de Texto -->
+                                <div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 p-2.5 bg-slate-800 dark:bg-slate-700 text-white text-[11px] leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 font-medium text-center pointer-events-none">
+                                    A estimativa matemática de qual será a nota de corte final quando o torneio acabar (calculada com base na média de 1,5 pontos por rodada).
+                                    <!-- Setinha inferior do balão -->
+                                    <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800 dark:border-t-slate-700"></div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -136,7 +173,7 @@
                         <thead>
                             <tr class="bg-slate-50 dark:bg-slate-900 text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
                                 <th class="p-4 font-semibold text-center">Pontuação Atual</th>
-                                <th class="p-4 font-semibold text-center">Quantidade de Jogadores</th>
+                                <th class="p-4 font-semibold text-center">Quantidade de jogadores</th>
                                 <th class="p-4 font-semibold text-center">Pontos Máx.</th>
                                 <th class="p-4 font-semibold text-center">Status</th>
                                 <th id="thChanceColumn" class="p-4 font-semibold text-center transition-all">Chance de Bolha</th>
@@ -361,60 +398,68 @@
                 const drawPotential = score + (roundsLeft * 1);
 
                 let status = "";
-                let bolha = "";
                 let statusBadgeClass = "";
+                let chanceColumnText = "";
+                let chanceBadgeClass = "";
 
-                // Lógica principal de Status (mantida igual para base matemática)
+                const isSameCut = currentCutScore === expectedCutScore;
+
+                // Define o STATUS PRINCIPAL (Coluna 4)
                 if (maxPotential < currentCutScore) {
                     status = "Sem chance";
                     statusBadgeClass = "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50";
-                    bolha = "Não";
                 }
                 else if (score >= expectedCutScore) {
                     status = "Já classificado";
                     statusBadgeClass = "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50";
-                    bolha = "Não";
                 }
                 else if (drawPotential >= expectedCutScore) {
-                    status = "Com chance caso empatar";
+                    status = "Com chance ao empatar";
                     statusBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50";
-                    bolha = (drawPotential === expectedCutScore) ? "Sim" : "Não";
+                }
+                else if (isAsymmetric && maxPotential === currentCutScore) {
+                    status = "Chance de Assimétrico";
+                    statusBadgeClass = "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800/50";
                 }
                 else {
-                    status = "Com chance caso vença";
+                    status = "Necessita vencer";
                     statusBadgeClass = "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800/50";
-                    if (maxPotential >= expectedCutScore - 1 && maxPotential <= expectedCutScore + 1) {
-                        bolha = "Sim";
-                    } else {
-                        bolha = "Não";
-                    }
                 }
 
-                // Lógica Dinâmica para a Última Coluna (Bolha vs Assimétrico)
-                let chanceColumnText = "";
-                let chanceBadgeClass = "";
-
+                // Define a CHANCE DA BOLHA / ASSIMÉTRICO (Coluna 5)
                 if (isAsymmetric) {
-                    // Detalhamento exclusivo para modo Assimétrico
+                    // MODO ASSIMÉTRICO
                     if (maxPotential < currentCutScore) {
                         chanceColumnText = "Sem Chance";
-                        chanceBadgeClass = "bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 font-medium";
-                    } else if (score >= expectedCutScore) {
+                        chanceBadgeClass = "bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700 font-medium opacity-50";
+                    }
+                    else if (score >= expectedCutScore) {
                         chanceColumnText = "Garantido";
                         chanceBadgeClass = "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50 font-bold";
-                    } else if (drawPotential >= expectedCutScore) {
-                        chanceColumnText = "Com Empate";
-                        chanceBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 font-bold";
-                    } else if (maxPotential >= expectedCutScore) {
-                        chanceColumnText = "Com Vitória";
-                        chanceBadgeClass = "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800/50 font-bold";
-                    } else {
-                        // Consegue alcançar o atual 8º, mas não o projetado
-                        chanceColumnText = "Depende da Mesa";
-                        chanceBadgeClass = "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800/50 font-bold";
                     }
-                    } else {
-                    // Lógica Detalhada de Bolha para os modos Top 4 e Top 8 Padrão
+                    else if (drawPotential >= expectedCutScore) {
+                        chanceColumnText = isSameCut ? "Com Empate" : "Com Empate (Corte Projetado)";
+                        chanceBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 font-bold text-[11px]";
+                    }
+                    else if (drawPotential >= currentCutScore) {
+                        chanceColumnText = "Com Empate (Apenas Corte Atual)";
+                        chanceBadgeClass = "bg-sky-100 text-sky-700 border-sky-200 dark:bg-sky-900/30 dark:text-sky-400 dark:border-sky-800/50 font-bold text-[10px]";
+                    }
+                    else if (maxPotential >= expectedCutScore) {
+                        chanceColumnText = isSameCut ? "Com Vitória" : "Com Vitória (Corte Projetado)";
+                        chanceBadgeClass = "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800/50 font-bold text-[11px]";
+                    }
+                    else if (maxPotential >= currentCutScore) {
+                        chanceColumnText = "Com Vitória (Apenas Corte Atual)";
+                        chanceBadgeClass = "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800/50 font-bold text-[10px]";
+                    }
+                    else {
+                        chanceColumnText = "Sem Chance";
+                        chanceBadgeClass = "bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700 font-medium opacity-50";
+                    }
+                }
+                else {
+                    // MODO TOP 4 E TOP 8 PADRÃO
                     if (maxPotential < currentCutScore) {
                         chanceColumnText = "Sem Chance";
                         chanceBadgeClass = "bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700 font-medium opacity-50";
@@ -425,22 +470,27 @@
                     }
                     else if (drawPotential > expectedCutScore) {
                         chanceColumnText = "Seguro (Vitória ou Empate)";
-                        chanceBadgeClass = "bg-teal-100 text-teal-800 border-teal-300 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-700/50 font-bold";
+                        chanceBadgeClass = "bg-teal-100 text-teal-800 border-teal-300 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-700/50 font-bold text-[11px]";
                     }
                     else if (drawPotential === expectedCutScore) {
-                        // Cenário exato que você citou: Empate joga na bolha, mas a Vitória garante a vaga limpa.
-                        chanceColumnText = "Seguro (Vitória) / Bolha (Empate)";
+                        chanceColumnText = isSameCut ? "Seguro (Vit) / Bolha (Empate)" : "Seguro (Vit) / Bolha Empate (Projetado)";
                         chanceBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 font-bold text-[10px]";
                     }
+                    else if (drawPotential >= currentCutScore && drawPotential < expectedCutScore) {
+                        chanceColumnText = "Seguro (Vit) / Bolha Empate ( Corte Atual)";
+                        chanceBadgeClass = "bg-cyan-100 text-cyan-800 border-cyan-300 dark:bg-cyan-900/30 dark:text-cyan-400 dark:border-cyan-800/50 font-bold text-[10px]";
+                    }
                     else if (maxPotential > expectedCutScore + 1) {
-                        // Empate não serve pra nada, precisa vencer para passar direto sem depender de desempate.
                         chanceColumnText = "Seguro apenas se Vencer";
                         chanceBadgeClass = "bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50 font-bold text-[11px]";
                     }
                     else if (maxPotential >= expectedCutScore - 1 && maxPotential <= expectedCutScore + 1) {
-                        // Empate não serve pra nada, e mesmo vencendo vai depender da resistência.
-                        chanceColumnText = "Bolha apenas se Vencer";
-                        chanceBadgeClass = "bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-700/50 font-bold text-[11px]";
+                        chanceColumnText = isSameCut ? "Bolha apenas se Vencer" : "Bolha se Vencer (Corte Projetado)";
+                        chanceBadgeClass = "bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-700/50 font-bold text-[10px]";
+                    }
+                    else if (maxPotential >= currentCutScore && maxPotential < expectedCutScore - 1) {
+                        chanceColumnText = "Bolha se Vencer (Apenas Corte Atual)";
+                        chanceBadgeClass = "bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-400 dark:border-red-700/50 font-bold text-[9px]";
                     }
                     else {
                         chanceColumnText = "Sem Chance";
@@ -448,7 +498,7 @@
                     }
                 }
 
-                // Cria a linha da tabela
+                // Renderiza a linha HTML
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors";
 
