@@ -35,8 +35,8 @@
                     <line x1="12" y1="22.08" x2="12" y2="12"></line>
                 </svg>
                 <div>
-                    <h1 class="text-xl font-bold tracking-tight">Swiss Top Cut Calculator</h1>
-                    <p class="text-[11px] text-slate-400 font-medium tracking-wider uppercase">Swiss Math Auto-System</p>
+                    <h1 class="text-xl font-bold tracking-tight">Calculadora de Top Cut para modo Suíco</h1>
+                    <p class="text-[11px] text-slate-400 font-medium tracking-wider uppercase">Sistema automático matemático</p>
                 </div>
             </div>
 
@@ -139,7 +139,7 @@
                                 <th class="p-4 font-semibold text-center">Quantidade de Jogadores</th>
                                 <th class="p-4 font-semibold text-center">Pontos Máx.</th>
                                 <th class="p-4 font-semibold text-center">Status</th>
-                                <th class="p-4 font-semibold text-center">Chance de Bolha</th>
+                                <th id="thChanceColumn" class="p-4 font-semibold text-center transition-all">Chance de Bolha</th>
                             </tr>
                         </thead>
                         <tbody id="resultsTableBody" class="divide-y divide-slate-100 dark:divide-slate-700">
@@ -218,10 +218,12 @@
         let nextId = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
-            addBracketRow(4, 15);
-            addBracketRow(3, 13);
+            addBracketRow(4, 16);
+            addBracketRow(5, 15);
+            addBracketRow(5, 14);
+            addBracketRow(6, 13);
             addBracketRow(4, 12);
-            addBracketRow(6, 11);
+            addBracketRow(5, 11);
             calculate();
         });
 
@@ -285,6 +287,14 @@
 
             const isAsymmetric = cutConfig === '8-assym';
             const cutSize = cutConfig.includes('4') ? 4 : 8;
+
+            // Atualiza dinamicamente o título da última coluna
+            const thChanceColumn = document.getElementById('thChanceColumn');
+            if (isAsymmetric) {
+                thChanceColumn.innerText = 'Chance Assimétrico';
+            } else {
+                thChanceColumn.innerText = 'Chance de Bolha';
+            }
 
             let allPlayers = [];
 
@@ -353,8 +363,8 @@
                 let status = "";
                 let bolha = "";
                 let statusBadgeClass = "";
-                let bolhaBadgeClass = "";
 
+                // Lógica principal de Status (mantida igual para base matemática)
                 if (maxPotential < currentCutScore) {
                     status = "Sem chance";
                     statusBadgeClass = "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50";
@@ -366,28 +376,79 @@
                     bolha = "Não";
                 }
                 else if (drawPotential >= expectedCutScore) {
-                    status = "Com chance ao empatar";
+                    status = "Com chance caso empatar";
                     statusBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50";
                     bolha = (drawPotential === expectedCutScore) ? "Sim" : "Não";
                 }
                 else {
-                    status = "Necessita vencer";
+                    status = "Com chance caso vença";
                     statusBadgeClass = "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800/50";
-
-                    if ( (maxPotential >= expectedCutScore - 1 && maxPotential <= expectedCutScore + 1) ||
-                         (isAsymmetric && maxPotential === currentCutScore) ) {
+                    if (maxPotential >= expectedCutScore - 1 && maxPotential <= expectedCutScore + 1) {
                         bolha = "Sim";
                     } else {
                         bolha = "Não";
                     }
                 }
 
-                if (bolha === "Sim") {
-                    bolhaBadgeClass = "bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-400 dark:border-yellow-700/50 font-bold";
-                } else {
-                    bolhaBadgeClass = "bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 font-medium";
+                // Lógica Dinâmica para a Última Coluna (Bolha vs Assimétrico)
+                let chanceColumnText = "";
+                let chanceBadgeClass = "";
+
+                if (isAsymmetric) {
+                    // Detalhamento exclusivo para modo Assimétrico
+                    if (maxPotential < currentCutScore) {
+                        chanceColumnText = "Sem Chance";
+                        chanceBadgeClass = "bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700 font-medium";
+                    } else if (score >= expectedCutScore) {
+                        chanceColumnText = "Garantido";
+                        chanceBadgeClass = "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50 font-bold";
+                    } else if (drawPotential >= expectedCutScore) {
+                        chanceColumnText = "Com Empate";
+                        chanceBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 font-bold";
+                    } else if (maxPotential >= expectedCutScore) {
+                        chanceColumnText = "Com Vitória";
+                        chanceBadgeClass = "bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800/50 font-bold";
+                    } else {
+                        // Consegue alcançar o atual 8º, mas não o projetado
+                        chanceColumnText = "Depende da Mesa";
+                        chanceBadgeClass = "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800/50 font-bold";
+                    }
+                    } else {
+                    // Lógica Detalhada de Bolha para os modos Top 4 e Top 8 Padrão
+                    if (maxPotential < currentCutScore) {
+                        chanceColumnText = "Sem Chance";
+                        chanceBadgeClass = "bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700 font-medium opacity-50";
+                    }
+                    else if (score >= expectedCutScore) {
+                        chanceColumnText = "Garantido";
+                        chanceBadgeClass = "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50 font-bold";
+                    }
+                    else if (drawPotential > expectedCutScore) {
+                        chanceColumnText = "Seguro (Vitória ou Empate)";
+                        chanceBadgeClass = "bg-teal-100 text-teal-800 border-teal-300 dark:bg-teal-900/30 dark:text-teal-400 dark:border-teal-700/50 font-bold";
+                    }
+                    else if (drawPotential === expectedCutScore) {
+                        // Cenário exato que você citou: Empate joga na bolha, mas a Vitória garante a vaga limpa.
+                        chanceColumnText = "Seguro (Vitória) / Bolha (Empate)";
+                        chanceBadgeClass = "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 font-bold text-[10px]";
+                    }
+                    else if (maxPotential > expectedCutScore + 1) {
+                        // Empate não serve pra nada, precisa vencer para passar direto sem depender de desempate.
+                        chanceColumnText = "Seguro apenas se Vencer";
+                        chanceBadgeClass = "bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50 font-bold text-[11px]";
+                    }
+                    else if (maxPotential >= expectedCutScore - 1 && maxPotential <= expectedCutScore + 1) {
+                        // Empate não serve pra nada, e mesmo vencendo vai depender da resistência.
+                        chanceColumnText = "Bolha apenas se Vencer";
+                        chanceBadgeClass = "bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-700/50 font-bold text-[11px]";
+                    }
+                    else {
+                        chanceColumnText = "Sem Chance";
+                        chanceBadgeClass = "bg-slate-100 text-slate-400 border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700 font-medium opacity-50";
+                    }
                 }
 
+                // Cria a linha da tabela
                 const tr = document.createElement('tr');
                 tr.className = "hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors";
 
@@ -407,8 +468,8 @@
                         </span>
                     </td>
                     <td class="p-3 text-center">
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs uppercase tracking-wide shadow-sm ${bolhaBadgeClass}">
-                            ${bolha}
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs uppercase tracking-wide shadow-sm ${chanceBadgeClass}">
+                            ${chanceColumnText}
                         </span>
                     </td>
                 `;
