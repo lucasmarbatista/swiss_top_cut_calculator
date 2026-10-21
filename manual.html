@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Uso - Swiss Top Cut</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+    <!-- Header Principal -->
+    <header class="bg-slate-900 text-white shadow-md border-b border-slate-800 sticky top-0 z-10">
+        <div class="max-w-4xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Botão de Voltar -->
+                <a href="top_cut_calculator.html" class="mr-2 p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors text-slate-300 hover:text-white" title="Voltar para a Calculadora">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2h9v9H2v-9zM13 2h9v9h-9v-9zM2 13h9v9H2v-9zM13 13h9v9h-9v-9z"></path>
+                </svg>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Manual de Uso</h1>
+                    <p class="text-[11px] text-slate-400 font-medium tracking-wider uppercase">Swiss Top Cut Calculator</p>
+                </div>
+            </div>
+
+            <!-- Botão de Modo Escuro -->
+            <button id="theme-toggle" type="button" class="text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-lg text-sm p-2.5 transition-colors">
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full space-y-8">
+
+        <!-- Intro -->
+        <section class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
+            <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-3">Visão Geral da Calculadora</h2>
+            <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+                Esta ferramenta foi desenvolvida para auxiliar Juízes, Organizadores (TOs) e Jogadores na tomada de decisão durante as rodadas finais de um torneio no formato Suíço. O sistema automatiza cálculos complexos de tiebreaker, eliminações matemáticas e riscos associados a empates intencionais (IDs).
+            </p>
+        </section>
+
+        <!-- 1. Como configurar -->
+        <section class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
+            <h3 class="text-lg font-bold text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-3 mb-5">1. Inserção de Dados do Torneio</h3>
+
+            <div class="space-y-8">
+                <!-- Seção de Inputs -->
+                <div>
+                    <h4 class="font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        Configurações Iniciais
+                    </h4>
+                    <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-400 mt-2 space-y-3 ml-2">
+                        <li><strong>Corte:</strong> Define a meta do torneio. As opções <i>Top 4</i> e <i>Top 8</i> utilizam as regras clássicas de desempate por resistência. A opção <i>Top 8 Assimétrico</i> adapta a matemática para incluir todos os jogadores que atingirem a pontuação do 8º colocado.</li>
+                        <li><strong>Rodadas Restantes:</strong> Parâmetro essencial. O sistema utiliza este valor para calcular o "Corte Projetado" (a estimativa de aumento da nota de corte até o fim do evento). Os botões <strong>+ e -</strong> permitem o ajuste a cada término de rodada.</li>
+                        <li><strong>Mesas de ID (Opcional):</strong> Caso ocorram empates intencionais (IDs) pré-declarados nas mesas principais, estas devem ser informadas aqui. O sistema injetará +1 ponto diretamente na projeção para ajustar a tabela.</li>
+                    </ul>
+                </div>
+
+                <!-- Seção de Brackets -->
+                <div>
+                    <h4 class="font-semibold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        Brackets de Pontuação (Agrupamento de Jogadores)
+                    </h4>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-3">Para otimizar o preenchimento, o sistema utiliza "Brackets" (grupos). Agrupa-se o volume de jogadores por pontuação, dispensando a inserção nominal individual.</p>
+
+                    <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-100 dark:border-slate-700 space-y-3">
+                        <p class="text-sm text-slate-600 dark:text-slate-400"><strong>Quantidade de Jogadores:</strong> O volume total de pessoas que possuem a mesma nota no momento atual.</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400"><strong>Pontos Obtidos:</strong> A pontuação atual correspondente a esse grupo.</p>
+
+                        <div class="mt-4 flex flex-col sm:flex-row gap-4 text-sm text-slate-600 dark:text-slate-400">
+                            <div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Atualização Dinâmica (+ e -)</span>
+                                Recomenda-se a utilização dos botões laterais para transitar jogadores após as rodadas. Exemplo: caso um jogador da faixa de 12 pontos vença a rodada, deve-se diminuir (-) 1 do bracket de 12 e adicionar (+) 1 no bracket de 15 pontos.
+                            </div>
+                            <div class="flex-1 bg-white dark:bg-slate-800 p-3 rounded border border-slate-200 dark:border-slate-700 shadow-sm">
+                                <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Adição e Remoção de Faixas</span>
+                                O botão inferior "Adicionar Bracket" insere novas linhas de pontuação. O ícone de lixeira vermelha remove uma faixa que tenha ficado vazia.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Lendo os Resultados -->
+                <div>
+                    <h4 class="font-semibold text-slate-700 dark:text-slate-200 mb-2">Compreensão dos Resultados Imediatos</h4>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Após a inserção dos dados, o painel superior direito exibirá dois indicadores principais:</p>
+                    <ul class="list-disc list-inside text-sm text-slate-600 dark:text-slate-400 mt-2 space-y-1 ml-2">
+                        <li><strong>Corte Atual:</strong> A pontuação do jogador que ocupa a última vaga de classificação no momento. Manter-se nesta pontuação estagnada geralmente é insuficiente, devido à pontuação constante das mesas inferiores.</li>
+                        <li><strong class="text-emerald-600 dark:text-emerald-400">Corte Projetado:</strong> A previsão matemática baseada no formato suíço. Indica a estimativa real da pontuação que será exigida na linha de corte ao fim do torneio.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Entendendo os Status -->
+        <section class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
+            <h3 class="text-lg font-bold text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-3 mb-5">2. Indicadores da Tabela: Status Principal</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">A coluna de status indica a condição básica requerida para que o grupo de jogadores alcance o Top Cut.</p>
+
+            <div class="grid gap-4 md:grid-cols-2">
+                <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-bold uppercase tracking-wide bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50 mb-2">Já Classificado</span>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">A pontuação do grupo já é igual ou superior ao que a projeção exige para o final do torneio, garantindo matematicamente a classificação.</p>
+                </div>
+
+                <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-bold uppercase tracking-wide bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 mb-2">Com chance ao empatar</span>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">O grupo necessita apenas de empates intencionais (IDs) nas rodadas restantes para atingir a nota projetada de corte.</p>
+                </div>
+
+                <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-bold uppercase tracking-wide bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-800/50 mb-2">Necessita Vencer</span>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">Não há margem matemática para empates. A vitória (+3 pontos) na rodada é obrigatória para manter as chances de classificação.</p>
+                </div>
+
+                <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-md border text-xs font-bold uppercase tracking-wide bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800/50 mb-2">Sem chance</span>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">Eliminação matemática confirmada. Mesmo com vitórias em todas as partidas restantes, o limite de pontos alcançável é inferior ao corte atual.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Análise de Risco (Bolha) -->
+        <section class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
+            <h3 class="text-lg font-bold text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-3 mb-5">3. Análise de Risco: O Fator Bolha</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">
+                A "Bolha" ocorre quando múltiplos jogadores terminam com a mesma pontuação, transferindo a decisão das últimas vagas para a resistência (desempenho dos oponentes prévios). A última coluna da ferramenta detalha o risco atrelado à aceitação de um ID.
+            </p>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-4 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="mt-0.5 inline-flex flex-shrink-0 items-center justify-center px-2 py-1 rounded border text-[10px] font-bold uppercase tracking-wide shadow-sm bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 text-center w-40">Seguro (Vit) /<br>Bolha (Empate)</span>
+                    <p class="text-sm text-slate-600 dark:text-slate-400"><strong>O Cenário Clássico:</strong> A vitória garante a classificação direta de forma independente. No entanto, aceitar um empate (ID) iguala a pontuação final estritamente à nota de corte, deixando a classificação dependente dos critérios de desempate.</p>
+                </div>
+
+                <div class="flex items-start gap-4 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="mt-0.5 inline-flex flex-shrink-0 items-center justify-center px-2 py-1 rounded border text-[10px] font-bold uppercase tracking-wide shadow-sm bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-900/30 dark:text-orange-400 dark:border-orange-700/50 text-center w-40">Bolha apenas<br>se Vencer</span>
+                    <p class="text-sm text-slate-600 dark:text-slate-400"><strong>Cenário de Alta Pressão:</strong> Um empate resulta em eliminação sumária. A vitória é estritamente necessária e, ainda assim, o avanço dependerá de uma vantagem favorável na resistência contra os demais concorrentes da mesma nota.</p>
+                </div>
+
+                <div class="flex items-start gap-4 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="mt-0.5 inline-flex flex-shrink-0 items-center justify-center px-2 py-1 rounded border text-[10px] font-bold uppercase tracking-wide shadow-sm bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-400 dark:border-indigo-800/50 text-center w-40">Seguro apenas<br>se Vencer</span>
+                    <p class="text-sm text-slate-600 dark:text-slate-400"><strong>Inviabilidade do Empate:</strong> Um ID é insuficiente para atingir a zona de classificação. Diferentemente do caso anterior, a obtenção de uma vitória confere o avanço direto, suprimindo o risco de eliminação por desempate.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 border border-purple-200 dark:border-purple-900/50 bg-purple-50 dark:bg-purple-900/10 rounded-lg">
+                <h4 class="font-bold text-purple-800 dark:text-purple-300 mb-1 text-sm">A Diretriz de "Apenas Corte Atual"</h4>
+                <p class="text-xs text-purple-700 dark:text-purple-400 leading-relaxed">
+                    A exibição do identificador <span class="font-semibold">(Apenas Corte Atual)</span> sinaliza uma dependência severa de resultados de terceiros. Indica que, mesmo com um aproveitamento de 100% nas rodadas remanescentes, a projeção padrão da linha de corte não é alcançada. A progressão ocorre apenas mediante estagnação atípica do torneio e empates massivos nas mesas líderes. Trata-se do panorama de maior risco estatístico.
+                </p>
+            </div>
+        </section>
+
+        <!-- 4. Regra do Assimétrico -->
+        <section class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-colors">
+            <h3 class="text-lg font-bold text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-700 pb-3 mb-5">4. O Formato "Top 8 Assimétrico"</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mb-4">
+                No formato Assimétrico, suprime-se a eliminação por critérios de desempate. A regra estabelece que <strong>todos os participantes que igualarem ou superarem a pontuação final do 8º colocado avançarão de fase.</strong>
+            </p>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mb-6">
+                Ao selecionar esta configuração, a coluna de Bolha é substituída pela métrica <strong>"Chance Assimétrica"</strong>, refletindo a condição numérica exata exigida, sem a variável de resistência:
+            </p>
+
+            <div class="space-y-4">
+                <div class="flex items-start gap-4 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="mt-0.5 inline-flex flex-shrink-0 items-center justify-center px-2 py-1 rounded border text-[10px] font-bold uppercase tracking-wide shadow-sm bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/50 text-center w-40">Garantido</span>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">A pontuação necessária para a classificação já foi matematicamente estabelecida pelo grupo.</p>
+                </div>
+
+                <div class="flex items-start gap-4 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="mt-0.5 inline-flex flex-shrink-0 items-center justify-center px-2 py-1 rounded border text-[10px] font-bold uppercase tracking-wide shadow-sm bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/50 text-center w-40">Com Empate /<br>Com Vitória</span>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Indica a pontuação exata de partida exigida na rodada atual para alcançar de modo independente a projeção de avanço.</p>
+                </div>
+
+                <div class="flex items-start gap-4 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-700">
+                    <span class="mt-0.5 inline-flex flex-shrink-0 items-center justify-center px-2 py-1 rounded border text-[10px] font-bold uppercase tracking-wide shadow-sm bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800/50 text-center w-40">Depende da<br>Mesa</span>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">O grupo atinge a pontuação atual do último classificado, porém não alcança a nota projetada. A classificação fica condicionada à derrota ou empate múltiplo de jogadores do topo da tabela.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-6 text-center text-slate-400 text-sm mt-auto border-t border-slate-800">
+        <p>Desenvolvido para auxiliar na fluidez e administração da comunidade competitiva de TCG.</p>
+    </footer>
+
+    <script>
+        // Lógica de Modo Escuro para o Manual
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
